@@ -12,10 +12,41 @@ public class Car implements Cloneable{
         this.typeOfFuel = typeOfFuel;
         this.performance = performance;
         this.color = color;
+        this.hasItHeatedSeats = hasItHeatedSeats;
     }
 
     @Override
     protected Car clone() throws CloneNotSupportedException {
         return (Car) super.clone();
+    }
+
+    @Override
+    public String toString() {
+        return "Car: " +
+                "brand='" + brand + '\'' +
+                ", performance=" + performance +
+                ", typeOfFuel=" + typeOfFuel +
+                ", color=" + color +
+                ", hasItHeatedSeats=" + hasItHeatedSeats +"\n";
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public void setPerformance(int performance) {
+        this.performance = performance;
+    }
+
+    public void setTypeOfFuel(Enum typeOfFuel) {
+        this.typeOfFuel = typeOfFuel;
+    }
+
+    public void setColor(Enum color) {
+        this.color = color;
+    }
+
+    public void setHasItHeatedSeats(boolean hasItHeatedSeats) {
+        this.hasItHeatedSeats = hasItHeatedSeats;
     }
 }
