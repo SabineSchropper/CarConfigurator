@@ -9,16 +9,13 @@ public class Main {
     public static void main(String[] args) {
         boolean wantToChangeSomething = true;
         Scanner scan = new Scanner(System.in);
-        Scanner scanInt = new Scanner(System.in);
-        int performance = 0;
-        String typeOfFuel = "";
-        String color = "";
-        String heatedSeats = "";
-        Enum colorEnum = null;
-        Enum typeOfFuelEnum = null;
-        boolean hasItHeatedSeats = false;
+        Scanner scanInt;
+        int performance;
+        Enum colorEnum;
+        Enum typeOfFuelEnum;
+        boolean hasItHeatedSeats;
         Car changedCar = null;
-        String choice = "";
+        String choice;
 
         ArrayList<Car> listOfCars = new ArrayList<>();
 
@@ -32,89 +29,87 @@ public class Main {
             System.out.println("Do you want to change something? Write in your wish or x if you dont want a change.");
             System.out.println("Performance?");
             try {
+                scanInt =  new Scanner(System.in);
                 performance = scanInt.nextInt();
-            }
-            catch (InputMismatchException ex){
+            } catch (InputMismatchException ex) {
                 performance = car.performance;
             }
             System.out.println("Type of Fuel?");
-            typeOfFuel = scan.next();
+            typeOfFuelEnum = chooseTypeOfFuel(scan, car);
+
             System.out.println("Color?");
             System.out.println(Color.DARKBLUE + " " + Color.LIGHTBLUE + " " + Color.MIDNIGHTBLACK + " " + Color.WOLFGREY);
-            color = scan.next();
+            colorEnum = chooseColor(scan,car);
+
             System.out.println("Heated seats? (yes or no)");
-            heatedSeats = scan.next();
+            hasItHeatedSeats = chooseIfHeatedSeats(scan, car);
 
-            color.toLowerCase();
-            switch (color) {
-                case ("darkblue"):
-                    colorEnum = Color.DARKBLUE;
-                    break;
-                case ("lightblue"):
-                    colorEnum = Color.LIGHTBLUE;
-                    break;
-                case ("midnightblack"):
-                    colorEnum = Color.MIDNIGHTBLACK;
-                    break;
-                case ("wolfgrey"):
-                    colorEnum = Color.WOLFGREY;
-                    break;
-                case("x"): colorEnum = car.color; break;
-                default:
-                    System.out.println("Color not found");
-                    break;
-            }
-            heatedSeats.toLowerCase();
-            switch (heatedSeats) {
-                case ("yes"):
-                    hasItHeatedSeats = true;
-                    break;
-                case ("no"):
-                    hasItHeatedSeats = false;
-                    break;
-                case("x"): hasItHeatedSeats = car.hasItHeatedSeats; break;
-                default:
-                    System.out.println("Answer not possible");
-                    break;
-            }
-            typeOfFuel.toLowerCase();
-
-            switch (typeOfFuel) {
-                case ("diesel"):
-                    typeOfFuelEnum = TypeOfFuel.DIESEL;
-                    break;
-                case ("benzin"):
-                    typeOfFuelEnum = TypeOfFuel.BENZIN;
-                    break;
-                case ("electricity"):
-                    typeOfFuelEnum = TypeOfFuel.ELECTRICITY;
-                    break;
-                case ("x"): typeOfFuelEnum = car.typeOfFuel; break;
-                default:
-                    System.out.println("Please choose again. A failure occured.");
-                    break;
-            }
-
-            try {
-                changedCar = car.clone();
-                changedCar.setPerformance(performance);
-                changedCar.setColor(colorEnum);
-                changedCar.setHasItHeatedSeats(hasItHeatedSeats);
-                changedCar.setTypeOfFuel(typeOfFuelEnum);
-            } catch (CloneNotSupportedException ex) {
-                ex.fillInStackTrace();
-            }
-
-            System.out.println(changedCar.toString());
-
-            System.out.println("Do you want to order this car? (yes or no)");
-            choice = scan.next();
-            if(choice.equalsIgnoreCase("yes")){
-                wantToChangeSomething = false;
-                System.out.println("Danke für Ihre Bestellung.");
-            }
-
+        try {
+            changedCar = car.clone();
+            changedCar.setPerformance(performance);
+            changedCar.setColor(colorEnum);
+            changedCar.setHasItHeatedSeats(hasItHeatedSeats);
+            changedCar.setTypeOfFuel(typeOfFuelEnum);
+        } catch (CloneNotSupportedException ex) {
+            ex.fillInStackTrace();
         }
+
+        System.out.println(changedCar.toString());
+
+        System.out.println("Do you want to order this car? (yes or no)");
+        choice = scan.next();
+        if (choice.equalsIgnoreCase("yes")) {
+            wantToChangeSomething = false;
+            System.out.println("Danke für Ihre Bestellung.");
+        }
+
+    }
         listOfCars.add(changedCar);
+}
+    public static Enum chooseColor(Scanner scan, Car car) {
+        String color = scan.next();
+        switch (color.toLowerCase()) {
+            case ("darkblue"):
+                return Color.DARKBLUE;
+            case ("lightblue"):
+                return Color.LIGHTBLUE;
+            case ("midnightblack"):
+                return Color.MIDNIGHTBLACK;
+            case ("wolfgrey"):
+                return Color.WOLFGREY;
+            case ("x"):
+            default:
+                System.out.println("Default value is set.");
+                return car.color;
+        }
+    }
+    public static boolean chooseIfHeatedSeats(Scanner scan, Car car) {
+        String heatedSeats = scan.next();
+        switch (heatedSeats.toLowerCase()) {
+            case ("yes"):
+                return true;
+            case ("no"):
+                return false;
+            case ("x"):
+            default:
+                System.out.println("Default value is set.");
+                return car.hasItHeatedSeats;
+        }
+    }
+    public static Enum chooseTypeOfFuel(Scanner scan, Car car) {
+        String typeOfFuel = scan.next();
+
+        switch (typeOfFuel.toLowerCase()) {
+            case ("diesel"):
+                return TypeOfFuel.DIESEL;
+            case ("benzin"):
+                return TypeOfFuel.BENZIN;
+            case ("electricity"):
+                return TypeOfFuel.ELECTRICITY;
+            case ("x"):
+            default:
+                System.out.println("Default value is set.");
+                return car.typeOfFuel;
+        }
     }
 }

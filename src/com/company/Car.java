@@ -30,10 +30,6 @@ public class Car implements Cloneable{
                 ", hasItHeatedSeats=" + hasItHeatedSeats +"\n";
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
     public void setPerformance(int performance) {
         this.performance = performance;
     }
